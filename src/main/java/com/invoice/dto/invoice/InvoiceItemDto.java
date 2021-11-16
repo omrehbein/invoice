@@ -1,4 +1,4 @@
-package com.br.invoice.dto.invoice;
+package com.invoice.dto.invoice;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

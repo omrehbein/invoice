@@ -1,9 +1,9 @@
-package com.br.invoice.service;
+package com.invoice.service;
 
 import java.util.List;
 
-import com.br.invoice.dto.invoice.InvoiceDto;
-import com.br.invoice.dto.invoice.create.CreateInvoiceDto;
+import com.invoice.dto.invoice.InvoiceDto;
+import com.invoice.dto.invoice.create.CreateInvoiceDto;
 
 public interface InvoiceService {
 

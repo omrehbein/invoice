@@ -1,7 +1,7 @@
-package com.br.invoice.repository;
+package com.invoice.repository;
 
-import com.br.invoice.entity.InvoiceEntity;
-import com.br.invoice.entity.InvoiceItemEntity;
+import com.invoice.entity.InvoiceEntity;
+import com.invoice.entity.InvoiceItemEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

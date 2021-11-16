@@ -1,10 +1,9 @@
-package com.br.invoice.repository;
+package com.invoice.repository;
 
 import java.util.List;
 
+import com.invoice.entity.InvoiceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.br.invoice.entity.InvoiceEntity;
 
 public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
 

@@ -1,4 +1,4 @@
-package com.br.invoice.entity;
+package com.invoice.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;

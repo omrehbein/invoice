@@ -1,4 +1,4 @@
-package com.br.invoice.configuration;
+package com.invoice.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;

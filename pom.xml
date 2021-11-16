@@ -9,7 +9,7 @@
         <version>2.5.4</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.br.invoice</groupId>
+    <groupId>com.invoice</groupId>
     <artifactId>demoUnitTest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>demoUnitTest</name>

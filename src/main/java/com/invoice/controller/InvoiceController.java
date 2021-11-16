@@ -1,9 +1,9 @@
-package com.br.invoice.controller;
+package com.invoice.controller;
 
-import com.br.invoice.dto.invoice.InvoiceDto;
-import com.br.invoice.dto.invoice.create.CreateInvoiceDto;
+import com.invoice.dto.invoice.InvoiceDto;
+import com.invoice.dto.invoice.create.CreateInvoiceDto;
 import org.springframework.web.bind.annotation.*;
-import com.br.invoice.service.InvoiceService;
+import com.invoice.service.InvoiceService;
 import io.swagger.annotations.ApiOperation;
 
 import javax.validation.Valid;

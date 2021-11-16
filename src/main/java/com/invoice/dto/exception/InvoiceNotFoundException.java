@@ -1,4 +1,4 @@
-package com.br.invoice.dto.exception;
+package com.invoice.dto.exception;
 
 public class InvoiceNotFoundException extends RuntimeException {
 
