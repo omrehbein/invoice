@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "invoice_table")
+@Table(name = "invoice")
 public class InvoiceEntity {
 
 	@Id

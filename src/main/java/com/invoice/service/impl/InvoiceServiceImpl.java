@@ -48,14 +48,14 @@ public class InvoiceServiceImpl implements InvoiceService {
 	public InvoiceDto create(CreateInvoiceDto dto) {
 
 		InvoiceEntity invoiceEntity = this.createInvoice(dto);
-		List<InvoiceItemEntity> invoiceItemEntitys = this.createInvoiceItems(dto.getInvoiceItems(), invoiceEntity);
+		var invoiceItemEntities = this.createInvoiceItems(dto.getInvoiceItems(), invoiceEntity);
 
-		this.updateInvoiceAmounts(invoiceItemEntitys, invoiceEntity);
+		this.updateInvoiceAmounts(invoiceItemEntities, invoiceEntity);
 
 		this.invoiceRepository.save(invoiceEntity);
-		this.invoiceItemRepository.saveAll(invoiceItemEntitys);
+		this.invoiceItemRepository.saveAll(invoiceItemEntities);
 
-		return mapToDto(invoiceEntity);
+		return mapToDto(invoiceEntity, invoiceItemEntities);
 	}
 
 	private InvoiceEntity createInvoice(CreateInvoiceDto invoiceDto) {
@@ -78,11 +78,21 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 	private InvoiceDto mapToDto(InvoiceEntity invoiceEntity) {
 		var invoiceDto = this.modelMapper.map(invoiceEntity, InvoiceDto.class);
-		List<InvoiceItemEntity> invoiceItemEntities = this.invoiceItemRepository.findByInvoiceOrderByIdDesc(invoiceEntity);
-		invoiceDto.setInvoiceItems(
-		    invoiceItemEntities.stream().map(invoiceItemEntity -> this.modelMapper.map(invoiceItemEntity, InvoiceItemDto.class)).collect(Collectors.toList())
-		);
+		var invoiceItemEntities = this.invoiceItemRepository.findByInvoiceOrderByIdDesc(invoiceEntity);
+		this.setInvoiceItems(invoiceDto, invoiceItemEntities);
 		return invoiceDto;
+	}
+
+	private InvoiceDto mapToDto(InvoiceEntity invoiceEntity, List<InvoiceItemEntity> invoiceItemEntities) {
+		var invoiceDto = this.modelMapper.map(invoiceEntity, InvoiceDto.class);
+		this.setInvoiceItems(invoiceDto, invoiceItemEntities);
+		return invoiceDto;
+	}
+
+	private void setInvoiceItems(InvoiceDto invoiceDto, List<InvoiceItemEntity> invoiceItemEntities) {
+		invoiceDto.setInvoiceItems(
+			invoiceItemEntities.stream().map(invoiceItemEntity -> this.modelMapper.map(invoiceItemEntity, InvoiceItemDto.class)).collect(Collectors.toList())
+		);
 	}
 
 }
