@@ -48,34 +48,32 @@ public class InvoiceServiceImpl implements InvoiceService {
 	public InvoiceDto create(CreateInvoiceDto dto) {
 
 		InvoiceEntity invoiceEntity = this.createInvoice(dto);
+		List<InvoiceItemEntity> invoiceItemEntitys = this.createInvoiceItems(dto.getInvoiceItems(), invoiceEntity);
 
-		this.createInvoiceItems(dto.getInvoiceItems(), invoiceEntity);
+		this.updateInvoiceAmounts(invoiceItemEntitys, invoiceEntity);
 
-		this.updateInvoiceAmounts(invoiceEntity);
+		this.invoiceRepository.save(invoiceEntity);
+		this.invoiceItemRepository.saveAll(invoiceItemEntitys);
 
 		return mapToDto(invoiceEntity);
 	}
 
 	private InvoiceEntity createInvoice(CreateInvoiceDto invoiceDto) {
-		var invoiceEntity = this.modelMapper.map(invoiceDto, InvoiceEntity.class);
-		this.invoiceRepository.save(invoiceEntity);
-		return invoiceEntity;
+		return this.modelMapper.map(invoiceDto, InvoiceEntity.class);
 	}
 
-	private void createInvoiceItems(List<CreateInvoiceItemDto> createInvoiceItemDtos, InvoiceEntity invoiceEntity) {
-		for(var createInvoiceItemDto : createInvoiceItemDtos){
+	private List<InvoiceItemEntity> createInvoiceItems(List<CreateInvoiceItemDto> createInvoiceItemDtos, InvoiceEntity invoiceEntity) {
+		return createInvoiceItemDtos.stream().map(createInvoiceItemDto -> {
 			var invoiceItemEntity = this.modelMapper.map(createInvoiceItemDto, InvoiceItemEntity.class);
 			invoiceItemEntity.setInvoice(invoiceEntity);
-			this.invoiceItemRepository.save(invoiceItemEntity);
-		}
+			return invoiceItemEntity;
+		}).collect(Collectors.toList());
 	}
 
-	private void updateInvoiceAmounts(InvoiceEntity invoiceEntity) {
-		List<InvoiceItemEntity> invoiceItemEntities = this.invoiceItemRepository.findByInvoiceOrderByIdDesc(invoiceEntity);
-		var valorTotalItem = invoiceItemEntities.stream().map(InvoiceItemEntity::getItemAmount).collect(Collectors.toList()).stream().reduce(BigDecimal.ZERO, BigDecimal::add);
-		invoiceEntity.setTotalItemsAmount(valorTotalItem);
-		invoiceEntity.setTotalAmount(valorTotalItem.add(invoiceEntity.getTotalShippingAmount()));
-		this.invoiceRepository.save(invoiceEntity);
+	private void updateInvoiceAmounts(List<InvoiceItemEntity> invoiceItemEntities, InvoiceEntity invoiceEntity) {
+		var totalItemsAmount = invoiceItemEntities.stream().map(InvoiceItemEntity::getItemAmount).collect(Collectors.toList()).stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+		invoiceEntity.setTotalItemsAmount(totalItemsAmount);
+		invoiceEntity.setTotalAmount(totalItemsAmount.add(invoiceEntity.getTotalShippingAmount()));
 	}
 
 	private InvoiceDto mapToDto(InvoiceEntity invoiceEntity) {
