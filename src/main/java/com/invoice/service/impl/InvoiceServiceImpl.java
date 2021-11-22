@@ -74,6 +74,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		var totalItemsAmount = invoiceItemEntities.stream().map(InvoiceItemEntity::getItemAmount).collect(Collectors.toList()).stream().reduce(BigDecimal.ZERO, BigDecimal::add);
 		invoiceEntity.setTotalItemsAmount(totalItemsAmount);
 		invoiceEntity.setTotalAmount(totalItemsAmount.add(invoiceEntity.getTotalShippingAmount()));
+		//invoiceEntity.setTotalAmount(totalItemsAmount.add(invoiceEntity.getTotalShippingAmount()).add(BigDecimal.ONE));
 	}
 
 	private InvoiceDto mapToDto(InvoiceEntity invoiceEntity) {

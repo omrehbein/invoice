@@ -14,13 +14,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.mockito.InjectMocks;
-import org.mockito.internal.matchers.Any;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.mockito.Mock;
-import static org.mockito.Mockito.*;
+
 
 
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -50,7 +52,7 @@ public class InvoiceServiceImplTest {
 
 
 	@Test
-	public void get_sendExistId_MustReturnResult_SuccessTest() {
+	public void get_sendingAnExistingId_mustReturnInvoice_successTest() {
 
 		//Arrange
 		Long id = Long.valueOf(1l);
@@ -68,7 +70,7 @@ public class InvoiceServiceImplTest {
 	}
 
 	@Test(expected = InvoiceNotFoundException.class)
-	public void get_sendNonExistId_MustThrow_FailTest() {
+	public void get_sendingANonExistId_mustThrowInvoiceNotFoundException_failTest() {
 
 		//Arrange
 		Long id = Long.valueOf(1l);
@@ -83,7 +85,7 @@ public class InvoiceServiceImplTest {
 	}
 
 	@Test
-	public void create_sendInvoiceDtoParam_MustReturnCorrectTotalAmount_SuccessTest() {
+	public void create_sendInvoiceDtoParam_mustReturnCorrectTotalAmount_successTest() {
 		//Arrange
 		CreateInvoiceDto invoiceDto = this.getMockCreateInvoiceDto();
 
@@ -98,7 +100,7 @@ public class InvoiceServiceImplTest {
 	private InvoiceEntity invoiceEntity;
 
 	@Test
-	public void create_sendInvoiceDtoParam_MustReturnCorrectTotalAmount_SuccessTest_JustForExample() {
+	public void create_sendInvoiceDtoParam_mustReturnCorrectTotalAmount_successTest_justForExample() {
 		//Arrange
 		CreateInvoiceDto invoiceDto = this.getMockCreateInvoiceDto();
 
@@ -120,7 +122,7 @@ public class InvoiceServiceImplTest {
 	}
 
 	@Test
-	public void create_sendInvoiceDtoParam_MustSaveInvoiceAndItems_SuccessTest() {
+	public void create_sendInvoiceDtoParam_mustSaveInvoiceAndItems_successTest() {
 
 		//Arrange
 		CreateInvoiceDto invoiceDto = this.getMockCreateInvoiceDto();
